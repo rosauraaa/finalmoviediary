@@ -15,8 +15,8 @@ class WatchlistController extends GetxController {
     movies.assignAll(data);
   }
 
-  Future<void> addMovie(String title) async {
-    await SupabaseService().addToWatchlist(title);
+  Future<void> addMovie(String title, String director, String notes) async {
+    await SupabaseService().addToWatchlist(title, director, notes);
     loadMovies();
   }
 

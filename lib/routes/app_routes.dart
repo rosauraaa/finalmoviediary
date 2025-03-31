@@ -6,4 +6,6 @@ abstract class AppRoutes {
   static const WATCHLIST = '/watchlist';
   static const LOGIN = '/login';
   static const REGISTER = '/register';
+  static const PROFILE = '/profile';
+  static const MAP = '/map';
 }

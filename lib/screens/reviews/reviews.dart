@@ -21,14 +21,14 @@ class ReviewsView extends GetView<ReviewsController> {
           Text("Mis Reseñas", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.primary)),
           SizedBox(height: 20),
 
-          // Formulario para nueva reseña
+          // form
           Row(
             children: [
               Expanded(
                 child: TextField(
                   controller: _textController,
                   decoration: InputDecoration(
-                    hintText: "Escribe tu reseña",
+                    hintText: "Escribe una reseña",
                     filled: true,
                     fillColor: AppColors.secondary,
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
@@ -39,9 +39,9 @@ class ReviewsView extends GetView<ReviewsController> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
                 onPressed: () {
-                  final text = _textController.text.trim();
-                  if (text.isNotEmpty) {
-                    controller.addReview(text);
+                  final content = _textController.text.trim();
+                  if (content.isNotEmpty) {
+                    controller.addReview(content);
                     _textController.clear();
                   }
                 },
@@ -52,7 +52,7 @@ class ReviewsView extends GetView<ReviewsController> {
 
           SizedBox(height: 20),
 
-          // Lista reactiva de reseñas
+          // lista de reviews con double tap
           Expanded(
             child: Obx(() => ListView.builder(
               itemCount: controller.reviews.length,
@@ -61,31 +61,41 @@ class ReviewsView extends GetView<ReviewsController> {
                 final id = review['id'];
                 final content = review['content'];
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6.0),
+                return GestureDetector(
+                  onDoubleTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: Text("Reseña completa"),
+                        content: Text(content),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Get.back(),
+                            child: Text("Cerrar"),
+                          )
+                        ],
+                      ),
+                    );
+                  },
                   child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 6),
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: AppColors.secondary,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text(content, style: TextStyle(color: AppColors.black, fontSize: 16))),
-                        IconButton(
-                          icon: Icon(Icons.delete, color: AppColors.black),
-                          onPressed: () => controller.deleteReview(id),
-                        ),
-                      ],
+                    child: Text(
+                      content.length > 80 ? '${content.substring(0, 80)}...' : content,
+                      style: TextStyle(color: AppColors.black),
                     ),
                   ),
                 );
               },
             )),
-          )
+          ),
         ]),
       ),
     );
   }
 }
+

@@ -15,13 +15,15 @@ class FavsController extends GetxController {
     favorites.assignAll(data);
   }
 
-  Future<void> addFavorite(String title) async {
-    await SupabaseService().addFavorite(title);
-    loadFavorites();
-  }
+ Future<void> addFavorite(String title, String director, String notes) async {
+  await SupabaseService().addFavorite(title, director, notes);
+  loadFavorites();
+}
+
 
   Future<void> deleteFavorite(String id) async {
     await SupabaseService().deleteFavorite(id);
     loadFavorites();
   }
 }
+

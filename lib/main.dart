@@ -3,11 +3,12 @@ import 'package:get/get.dart';
 import 'routes/app_pages.dart';
 import 'routes/app_routes.dart';
 import 'theme/app_theme.dart';
-import 'services/supabase_service.dart'; 
+import 'services/supabase_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SupabaseService.init();            
+  await SupabaseService.init();
+
   runApp(MyApp());
 }
 
@@ -23,4 +24,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
 
